@@ -29,7 +29,7 @@ The validation follows the official [AWS documentation](https://docs.aws.amazon.
 The library is very simple and minimal to use: 
 
 ```ts
-import { verifyCognitoToken } from './../lib/index';
+import { verifyCognitoToken } from 'cognito-jwt-verify';
 
 // Pass the token that the Cognito API has given to you (either id or access one)
 verifyCognitoToken('eu-south-1', 'cognitoUserPoolId', token, 'myuserappid').then(decodedToken => {
@@ -41,7 +41,7 @@ verifyCognitoToken('eu-south-1', 'cognitoUserPoolId', token, 'myuserappid').then
 Or using the async-await construct
 
 ```ts
-import { verifyCognitoToken } from './../lib/index';
+import { verifyCognitoToken } from 'cognito-jwt-verify';
 
 var token = await verifyCognitoToken('eu-south-1', 'cognitoUserPoolId', 'myuserappid', token);
 ```
