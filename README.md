@@ -43,7 +43,7 @@ Or using the async-await construct
 ```ts
 import { verifyCognitoToken } from 'cognito-jwt-verify';
 
-var token = await verifyCognitoToken('eu-south-1', 'cognitoUserPoolId', 'myuserappid', token);
+var token = await verifyCognitoToken('eu-south-1', 'cognitoUserPoolId', token, 'myuserappid');
 ```
 
 ## Features
