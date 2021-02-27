@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GioPat/cognito-jwt-verify.git"
+    "url": "https://github.com/GioPat/cognito-jwt-verify.git"
   },
   "keywords": [
     "aws",
