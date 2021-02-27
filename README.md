@@ -2,11 +2,13 @@
 
 Minimal AWS Cognito JWT token verify utilities built in Typescript.
 
+[![npm Package][npm-image]][npm-url]
 [![node version][node-image]][node-url]
 [![Build Status][travis-image]][travis-url]
 [![Coverage Status][coverage-image]][coverage-url]
 
-
+[npm-image]:      https://img.shields.io/npm/v/cognito-jwt-verify.svg?style=flat-square
+[npm-url]:        https://www.npmjs.com/package/cognito-jwt-verify
 [node-image]:     https://img.shields.io/badge/node.js-%3E=_12.0.0-green.svg?style=flat-square
 [node-url]:       http://nodejs.org/download/
 [travis-image]:   https://travis-ci.org/GioPat/cognito-jwt-verify.svg?branch=master
