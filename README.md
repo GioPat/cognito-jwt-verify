@@ -14,6 +14,9 @@ Minimal AWS Cognito JWT token verify utilities built in Typescript.
 [coverage-image]: https://coveralls.io/repos/github/GioPat/cognito-jwt-verify/badge.svg?branch=master
 [coverage-url]:   https://coveralls.io/github/GioPat/cognito-jwt-verify?branch=master
 
+## Description
+This package is intended to validate the JWTs tokens (id token and access token) released by cognito upon authenticating the user.
+The validation follows the official [AWS documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html)
 
 ## Installation
 **Make sure you have Node >= 12.0.0 installed**
