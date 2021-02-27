@@ -7,7 +7,7 @@ import KeyValueDict from './interfaces/key-value-dict';
 import TokenHeader from './interfaces/token-header';
 import AwsKeyResponse from './interfaces/aws-keys-response';
 
-let cachedPems: KeyValueDict | undefined = undefined;
+let cachedPems: KeyValueDict | undefined;
 
 async function hydratePemCache(awsRegion: string, userPoolId: string): Promise<void> {
   cachedPems = {};
@@ -25,7 +25,7 @@ export async function verifyToken(awsRegion: string, userPoolId: string, token: 
   if (decodedToken == null) {
     throw new JsonWebTokenError('Decoded token is null');
   }
-  const header: TokenHeader = (decodedToken as { [key: string]: any })['header'] as TokenHeader;
+  const header: TokenHeader = (decodedToken as { header: TokenHeader }).header;
   if (cachedPems === undefined) {
     await hydratePemCache(awsRegion, userPoolId);
   }

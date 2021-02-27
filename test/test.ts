@@ -1,6 +1,6 @@
 import { verifyToken } from './../lib/index';
 import axios from 'axios';
-import { sign } from 'jsonwebtoken';
+import { JsonWebTokenError, sign, TokenExpiredError } from 'jsonwebtoken';
 import MockAdapter from 'axios-mock-adapter';
 
 const fakeRsaPrivateKey: string = `-----BEGIN RSA PRIVATE KEY-----
@@ -17,65 +17,68 @@ Su5rsCPb8acJo5RO26gGVrfAsDcIXKC+bQJAZZ2XIpsitLyPpuiMOvBbzPavd4gY
 fSSjAkLRi54PKJ8TFUeOP15h9sQzydI8zJU+upvDEKZsZc/UhT/SySDOxQ4G/523
 Y0sz/OZtSWcol/UMgQJALesy++GdvoIDLfJX5GBQpuFgFenRiRDabxrE9MNUZ2aP
 FaFp+DyAe+b4nDwuJaW2LURbr8AEZga7oQj0uYxcYw==
------END RSA PRIVATE KEY-----`
+-----END RSA PRIVATE KEY-----`;
 
 const fakeRegion = 'fake-region';
 
 const fakePoolId = 'fakePoolId';
 
 const correctJwtDecoded: object = {
-  "sub": "username",
-  "aud": "5hinvqat4h8n3d5j6ud0a6d7cl",
-  "email_verified": true,
-  "event_id": "xxxxxxxxx",
-  "token_use": "id",
-  "auth_time": 1614362797,
-  "iss": `https://cognito-idp.${fakeRegion}.amazonaws.com/${fakePoolId}`,
-  "cognito:username": "username",
-  "iat": 1614362797,
-  "email": "foo.bar@fake.io"
-}
+  sub: 'username',
+  aud: '5hinvqat4h8n3d5j6ud0a6d7cl',
+  email_verified: true,
+  event_id: 'xxxxxxxxx',
+  token_use: 'id',
+  auth_time: 1614362797,
+  iss: `https://cognito-idp.${fakeRegion}.amazonaws.com/${fakePoolId}`,
+  'cognito:username': 'username',
+  iat: 1614362797,
+  email: 'foo.bar@fake.io',
+};
 
 const expiredTokenDecoded: object = {
-  "sub": "username",
-  "aud": "5hinvqat4h8n3d5j6ud0a6d7cl",
-  "email_verified": true,
-  "event_id": "xxxxxxxxx",
-  "token_use": "id",
-  "auth_time": 1614362797,
-  "exp": 1614362797, 
-  "iss": `https://cognito-idp.${fakeRegion}.amazonaws.com/${fakePoolId}`,
-  "cognito:username": "username",
-  "iat": 1614362797,
-  "email": "foo.bar@fake.io"
-}
+  sub: 'username',
+  aud: '5hinvqat4h8n3d5j6ud0a6d7cl',
+  email_verified: true,
+  event_id: 'xxxxxxxxx',
+  token_use: 'id',
+  auth_time: 1614362797,
+  exp: 1614362797,
+  iss: `https://cognito-idp.${fakeRegion}.amazonaws.com/${fakePoolId}`,
+  'cognito:username': 'username',
+  iat: 1614362797,
+  email: 'foo.bar@fake.io',
+};
 
 const mock = new MockAdapter(axios);
 
 // Look https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-verifying-a-jwt.html here for more details
-mock.onGet(`https://cognito-idp.${fakeRegion}.amazonaws.com/${fakePoolId}/.well-known/jwks.json`).reply(200,{
-  "keys": [
+mock.onGet(`https://cognito-idp.${fakeRegion}.amazonaws.com/${fakePoolId}/.well-known/jwks.json`).reply(200, {
+  keys: [
     {
-      "kid": "test",
-      "kty": "RSA",
-      "n": "3ZWrUY0Y6IKN1qI4BhxR2C7oHVFgGPYkd38uGq1jQNSqEvJFcN93CYm16_G78FAFKWqwsJb3Wx-nbxDn6LtP4AhULB1H0K0g7_jLklDAHvI8yhOKlvoyvsUFPWtNxlJyh5JJXvkNKV_4Oo12e69f8QCuQ6NpEPl-cSvXIqUYBCs",
-      "e": "AQAB",
-      "use": "sig",
-    }
-  ]
+      kid: 'test',
+      kty: 'RSA',
+      n:
+        '3ZWrUY0Y6IKN1qI4BhxR2C7oHVFgGPYkd38uGq1jQNSqEvJFcN93CYm16_G78FAFKWqwsJb3Wx-nbxDn6LtP4AhULB1H0K0g7_jLklDAHvI8yhOKlvoyvsUFPWtNxlJyh5JJXvkNKV_4Oo12e69f8QCuQ6NpEPl-cSvXIqUYBCs',
+      e: 'AQAB',
+      use: 'sig',
+    },
+  ],
 });
 
-const correctToken = sign(correctJwtDecoded, fakeRsaPrivateKey, { algorithm: "RS256", header: { "kid": "test" } });
-const expiredToken = sign(expiredTokenDecoded, fakeRsaPrivateKey, { algorithm: "RS256", header: { "kid": "test" } });
+const correctToken = sign(correctJwtDecoded, fakeRsaPrivateKey, { algorithm: 'RS256', header: { kid: 'test' } });
+const expiredToken = sign(expiredTokenDecoded, fakeRsaPrivateKey, { algorithm: 'RS256', header: { kid: 'test' } });
 
-test('Verify token hydrating cache', () => {
-  return verifyToken(fakeRegion, fakePoolId, correctToken).then(decodedPayload => {
+it('Returns decoded token while hydrating cache', () => {
+  return verifyToken(fakeRegion, fakePoolId, correctToken).then((decodedPayload) => {
     expect(decodedPayload).toMatchObject(correctJwtDecoded);
-  })
+  });
 });
 
-test('Verify expired token hydrating cache', () => {
-  return verifyToken(fakeRegion, fakePoolId, correctToken).then(decodedPayload => {
-    expect(decodedPayload).toMatchObject(correctJwtDecoded);
-  })
+it('Rejects a token that is expired re using the cache', () => {
+  return expect(verifyToken(fakeRegion, fakePoolId, expiredToken)).rejects.toThrow(JsonWebTokenError);
+});
+
+it('Reject a token that cannot be parsed', () => {
+  return expect(verifyToken(fakeRegion, fakePoolId, 'thisisnotatoken')).rejects.toThrow(JsonWebTokenError);
 });
