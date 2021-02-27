@@ -24,7 +24,7 @@ export async function verifyCognitoToken(
   awsRegion: string,
   userPoolId: string,
   token: string,
-  app_client_id: string,
+  appClientId: string,
 ): Promise<object> {
   const decodedToken = decode(token, { complete: true });
   if (decodedToken == null) {
@@ -37,9 +37,9 @@ export async function verifyCognitoToken(
   const pem: string = (cachedPems as KeyValueDict)[header.kid];
   try {
     const decodedPayload = verify(token, pem, { algorithms: [header.alg as Algorithm] }) as object;
-    const aud: string = (decodedPayload as { aud: string}).aud;
+    const aud: string = (decodedPayload as { aud: string }).aud;
     const iss: string = (decodedPayload as { iss: string }).iss;
-    if (aud !== app_client_id) {
+    if (aud !== appClientId) {
       throw new JsonWebTokenError('App client id does not correspond to the one encoded in the token');
     }
     if (iss !== `https://cognito-idp.${awsRegion}.amazonaws.com/${userPoolId}`) {

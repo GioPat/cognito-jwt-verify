@@ -23,7 +23,7 @@ const fakeRegion = 'fake-region';
 
 const fakePoolId = 'fakePoolId';
 
-const audApplication = "aud_application";
+const audApplication = 'aud_application';
 
 const correctJwtDecoded: object = {
   sub: 'username',
@@ -78,15 +78,21 @@ it('Returns decoded token while hydrating cache', () => {
 });
 
 it('Rejects a token that is expired re using the cache', () => {
-  return expect(verifyCognitoToken(fakeRegion, fakePoolId, expiredToken, audApplication)).rejects.toThrow(JsonWebTokenError);
+  return expect(verifyCognitoToken(fakeRegion, fakePoolId, expiredToken, audApplication)).rejects.toThrow(
+    JsonWebTokenError,
+  );
 });
 
 it('Reject a token that cannot be parsed', () => {
-  return expect(verifyCognitoToken(fakeRegion, fakePoolId, 'thisisnotatoken', audApplication)).rejects.toThrow(JsonWebTokenError);
+  return expect(verifyCognitoToken(fakeRegion, fakePoolId, 'thisisnotatoken', audApplication)).rejects.toThrow(
+    JsonWebTokenError,
+  );
 });
 
 it('Reject a verification because of the application mismatch', () => {
-  return expect(verifyCognitoToken(fakeRegion, fakePoolId, correctToken, "nottheappid")).rejects.toThrow(JsonWebTokenError);
+  return expect(verifyCognitoToken(fakeRegion, fakePoolId, correctToken, 'nottheappid')).rejects.toThrow(
+    JsonWebTokenError,
+  );
 });
 
 it('Reject a verification because of the issuer mismatch', () => {
@@ -100,8 +106,13 @@ it('Reject a verification because of the issuer mismatch', () => {
     iss: `https://cognito-idp.different-fake-region.amazonaws.com/${fakePoolId}`,
     'cognito:username': 'username',
     iat: 1614362797,
-    email: 'foo.bar@fake.io',  
-  }
-  const encodedToken = sign(correctTokenIssuedByAnotherApp, fakeRsaPrivateKey, { algorithm: 'RS256', header: { kid: 'test' } });
-  return expect(verifyCognitoToken(fakeRegion, fakePoolId, encodedToken, audApplication)).rejects.toThrow(JsonWebTokenError);
+    email: 'foo.bar@fake.io',
+  };
+  const encodedToken = sign(correctTokenIssuedByAnotherApp, fakeRsaPrivateKey, {
+    algorithm: 'RS256',
+    header: { kid: 'test' },
+  });
+  return expect(verifyCognitoToken(fakeRegion, fakePoolId, encodedToken, audApplication)).rejects.toThrow(
+    JsonWebTokenError,
+  );
 });

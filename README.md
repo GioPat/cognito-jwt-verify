@@ -30,7 +30,7 @@ The library is very simple and minimal to use:
 import { verifyCognitoToken } from './../lib/index';
 
 // Pass the token that the Cognito API has given to you (either id or access one)
-verifyCognitoToken('eu-south-1', 'cognitoUserPoolId', token).then(decodedToken => {
+verifyCognitoToken('eu-south-1', 'cognitoUserPoolId', token, 'myuserappid').then(decodedToken => {
   // Here you have your decoded token
 }).catch(error => {
   // Error while verifying the token
@@ -41,7 +41,7 @@ Or using the async-await construct
 ```ts
 import { verifyCognitoToken } from './../lib/index';
 
-var token = await verifyCognitoToken('eu-south-1', 'cognitoUserPoolId', token);
+var token = await verifyCognitoToken('eu-south-1', 'cognitoUserPoolId', 'myuserappid', token);
 ```
 
 ## Features
