@@ -1,0 +1,40 @@
+{
+  "name": "cognito-jwt-verify",
+  "version": "1.0.0",
+  "description": "Minimal AWS Cognito JWT token verify utilities built in Typescript ",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write \"lib/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json",
+    "test": "jest --config jestconfig.json",
+    "build": "tsc",
+    "prepublish" : "npm test && npm run lint && npm run build"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GioPat/cognito-jwt-verify.git"
+  },
+  "keywords": [
+    "aws",
+    "jwt",
+    "cognito"
+  ],
+  "author": "giovanni.patruno@outlook.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GioPat/cognito-jwt-verify/issues"
+  },
+  "homepage": "https://github.com/GioPat/cognito-jwt-verify#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.20",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.5.2",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^4.2.2"
+  }
+}
