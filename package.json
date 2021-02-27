@@ -8,7 +8,7 @@
     "lint": "tslint -p tsconfig.json",
     "test": "jest --config jestconfig.json",
     "build": "tsc",
-    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "coveralls": "jest --config jestconfig.json --coverage && cat ./coverage/lcov.info | coveralls",
     "prepublish": "npm test && npm run lint && npm run build"
   },
   "files": [
