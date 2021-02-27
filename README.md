@@ -22,3 +22,11 @@ The validation follows the official [AWS documentation](https://docs.aws.amazon.
 **Make sure you have Node >= 12.0.0 installed**
 
 `npm install cognito-jwt-verify`
+
+## Usage
+
+## Features
+
+## Contributing
+
+## License
