@@ -24,9 +24,45 @@ The validation follows the official [AWS documentation](https://docs.aws.amazon.
 `npm install cognito-jwt-verify`
 
 ## Usage
+The library is very simple and minimal to use: 
+
+```ts
+import { verifyCognitoToken } from './../lib/index';
+
+// Pass the token that the Cognito API has given to you (either id or access one)
+verifyCognitoToken('eu-south-1', 'cognitoUserPoolId', token).then(decodedToken => {
+  // Here you have your decoded token
+}).catch(error => {
+  // Error while verifying the token
+})
+```
+Or using the async-await construct
+
+```ts
+import { verifyCognitoToken } from './../lib/index';
+
+var token = await verifyCognitoToken('eu-south-1', 'cognitoUserPoolId', token);
+```
 
 ## Features
 
+- Validate token as per AWS documentation.
+- Cache JWK for subsequent token validations.
+- Handle errors.
+
 ## Contributing
 
+Keep the unit test coverage to 100!
+
+Run:
+
+```sh
+npm run format
+npm run lint
+npm run test
+```
+
+Feel free to submit issues and enhancement requests 🚀🚀!.
+
 ## License
+MIT license, for more information pelase read LICENSE file
