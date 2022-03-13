@@ -26,13 +26,37 @@ The validation follows the official [AWS documentation](https://docs.aws.amazon.
 `npm install cognito-jwt-verify`
 
 ## Usage
-The library is very simple and minimal to use: 
+The library is very simple and minimal to use. Can be used in two flavours: As a class or as a stand alone method
+
+### Class
+
+```ts
+import { CognitoJwtVerifier } from 'cognito-jwt-verify';
+
+const verifier = new CognitoJwtVerifier(
+  'eu-south-1',
+  'cognitoUserPoolId',
+  'myuserappid',
+  false // Optional! if true, skip expiration verification for dev purposes
+);
+
+// Here you have your decoded token
+const token = await verifier.verify(token);
+```
+
+### Stand alone method
 
 ```ts
 import { verifyCognitoToken } from 'cognito-jwt-verify';
 
 // Pass the token that the Cognito API has given to you (either id or access one)
-verifyCognitoToken('eu-south-1', 'cognitoUserPoolId', token, 'myuserappid').then(decodedToken => {
+verifyCognitoToken(
+  'eu-south-1',
+  'cognitoUserPoolId',
+  token,
+  'myuserappid',
+  true // Optional! if true, skips expiration verification for dev purposes 
+).then(decodedToken => {
   // Here you have your decoded token
 }).catch(error => {
   // Error while verifying the token
