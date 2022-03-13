@@ -3,3 +3,6 @@ node_modules
 
 # Tests artifacts
 /coverage
+
+# Editor files
+.vscode
