@@ -8,11 +8,11 @@ export default class CognitoJwtVerifier {
   private appClientId: string;
   private isDev: boolean;
 
-  constructor(awsRegion: string, userPoolId: string, appClientId: string, isDev: boolean) {
+  constructor(awsRegion: string, userPoolId: string, appClientId: string, isDev?: boolean) {
     this.awsRegion = awsRegion;
     this.userPoolId = userPoolId;
     this.appClientId = appClientId;
-    this.isDev = isDev;
+    this.isDev = isDev ?? false;
   }
 
   public async verify(token: string): Promise<object> {

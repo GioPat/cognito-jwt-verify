@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { sign } from 'jsonwebtoken';
+import { sign, TokenExpiredError } from 'jsonwebtoken';
 import CognitoJwtVerifier from '../lib/cognitoVerifier';
 import MockAdapter from 'axios-mock-adapter';
 
@@ -55,6 +55,12 @@ const expiredTokenDecoded: object = {
 };
 
 const expiredToken = sign(expiredTokenDecoded, fakeRsaPrivateKey, { algorithm: 'RS256', header: { kid: 'test' } });
+
+it('Rejects a token that is expired re using the cache', () => {
+  const verifier = new CognitoJwtVerifier(fakeRegion, fakePoolId, audApplication);
+
+  return expect(verifier.verify(expiredToken)).rejects.toThrow(TokenExpiredError);
+});
 
 it('Returns decoded token without checking expiration date and no cache', () => {
   const verifier = new CognitoJwtVerifier(fakeRegion, fakePoolId, audApplication, true);

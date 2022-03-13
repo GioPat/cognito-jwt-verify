@@ -13,7 +13,7 @@ export async function verifyCognitoToken(
   userPoolId: string,
   token: string,
   appClientId: string,
-  isDev: boolean,
+  isDev?: boolean,
 ): Promise<object> {
   if (cachedPems === undefined) {
     await hydratePemCache(awsRegion, userPoolId);
