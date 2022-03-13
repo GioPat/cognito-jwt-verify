@@ -13,12 +13,13 @@ export async function verifyCognitoToken(
   userPoolId: string,
   token: string,
   appClientId: string,
+  isDev: boolean,
 ): Promise<object> {
   if (cachedPems === undefined) {
     await hydratePemCache(awsRegion, userPoolId);
   }
   try {
-    return await verifyToken(awsRegion, userPoolId, token, appClientId, cachedPems as KeyValueDict);
+    return await verifyToken(awsRegion, userPoolId, token, appClientId, cachedPems as KeyValueDict, isDev);
   } catch (error) {
     throw error;
   }
