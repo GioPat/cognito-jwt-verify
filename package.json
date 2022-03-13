@@ -1,6 +1,6 @@
 {
   "name": "cognito-jwt-verify",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Minimal AWS Cognito JWT token verify utilities built in Typescript.",
   "author": "Giovanni Patruno",
   "main": "dist/index.js",
