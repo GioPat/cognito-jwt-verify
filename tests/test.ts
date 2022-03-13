@@ -1,4 +1,4 @@
-import { verifyCognitoToken } from './../lib/index';
+import { verifyCognitoToken } from '../lib/index';
 import axios from 'axios';
 import { JsonWebTokenError, sign, TokenExpiredError } from 'jsonwebtoken';
 import MockAdapter from 'axios-mock-adapter';
@@ -79,7 +79,7 @@ it('Returns decoded token while hydrating cache', () => {
 
 it('Rejects a token that is expired re using the cache', () => {
   return expect(verifyCognitoToken(fakeRegion, fakePoolId, expiredToken, audApplication)).rejects.toThrow(
-    JsonWebTokenError,
+    TokenExpiredError,
   );
 });
 

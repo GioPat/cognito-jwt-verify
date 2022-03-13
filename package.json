@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "format": "prettier --write \"lib/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"lib/**/*.ts\" \"tests/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
     "test": "jest --coverage --config jestconfig.json",
     "build": "tsc",
